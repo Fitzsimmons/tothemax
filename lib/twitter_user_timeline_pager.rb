@@ -19,18 +19,18 @@ class TwitterUserTimelinePager
     while !last_page?(page)
       page = trim_anything_older_than(fetch_page(lowest_id), stop_at)
       page_num += 1
-      puts "Started processing page #{page_num}"
+      Rails.logger.info "Started processing page #{page_num}"
 
 
       # strange error when using .id, fetch the id out of the attrs hash manually when using max
       highest_id = [highest_id, page.max{|t| t.attrs[:id]}.id].max
       lowest_id = page.last.id # assumptions were made
-      puts "Lowest id for this pass: #{lowest_id}"
+      Rails.logger.info "Lowest id for this pass: #{lowest_id}"
 
       yield page
 
       tweet_count += page.count
-      puts "Processed #{tweet_count} tweets"
+      Rails.logger.info "Processed #{tweet_count} tweets"
     end
 
     return highest_id
@@ -54,6 +54,8 @@ class TwitterUserTimelinePager
   end
 
   def last_page?(page)
+    # There is an unknown case where twitter won't return all 200 results, but there's still way more. Need to find out a better way to decide when to keep paging. For now, this works, but it is confusing and causes awkwardness in tests
+
     !page.nil? && page.count < PAGE_SIZE/2
   end
 end

@@ -23,7 +23,8 @@ class AnalysisResult < ActiveRecord::Base
 
     pager = TwitterUserTimelinePager.new(username)
     highest_id = pager.page_back(most_recent_known_id) do |page|
-      counter.add(StatusAnalysis.new(page).status_length_frequency)
+      #stringified keys needed here because of limitations of the JSON format which require keys to be strings
+      counter.add(StatusAnalysis.new(page).status_length_frequency.stringify_keys)
     end
 
     if !existing_result
