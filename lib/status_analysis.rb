@@ -10,6 +10,7 @@ class StatusAnalysis
     frequency_counter = CounterHash.new
 
     @raw.each do |tweet|
+      next if tweet.retweet?
       frequency_counter.add(add_unit(tweet.text.length))
     end
 

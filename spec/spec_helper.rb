@@ -12,6 +12,16 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
+def redefine_const klass, const, new_val
+  old_val = klass.const_get(const)
+  klass.send(:remove_const, const)
+  klass.const_set(const, new_val)
+  yield
+ensure
+  klass.send(:remove_const, const)
+  klass.const_set(const, old_val)
+end
+
 RSpec.configure do |config|
   # ## Mock Framework
   #
