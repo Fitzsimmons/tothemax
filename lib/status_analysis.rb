@@ -11,7 +11,7 @@ class StatusAnalysis
 
     @raw.each do |tweet|
       next if tweet.retweet?
-      frequency_counter.add(add_unit(tweet.text.length))
+      frequency_counter.add(add_unit(clamp(tweet.text.length, 140)))
     end
 
     return frequency_counter.result
@@ -21,5 +21,12 @@ class StatusAnalysis
 
   def add_unit(count)
     return {count => 1}
+  end
+
+  def clamp(val, max)
+    if val > max
+      return max
+    end
+    return val
   end
 end
