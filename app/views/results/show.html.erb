@@ -1,0 +1,28 @@
+<h1><%= @result.username %></h1>
+
+<canvas id="count" width="1600" height="800"></canvas>
+
+<script type="text/javascript">
+  $(function() {
+    var data = <%= @chart_data[:data].to_json %>
+    var labels = <%= @chart_data[:labels].to_json %>
+
+    var chartData = {
+      labels: labels,
+      datasets: [{
+        data: data,
+        fillColor: "rgba(151,187,205,0.5)",
+        strokeColor : "rgba(151,187,205,1)"
+      }]
+    };
+
+    var options = {
+      animation: false
+    }
+
+    var context = $("#count").get(0).getContext("2d");
+    var countChart = new Chart(context).Bar(chartData, options);
+
+
+  });
+</script>

@@ -1,0 +1,7 @@
+<h1>Results</h1>
+
+<ul>
+<% @results.each do |result| %>
+  <li><%= link_to result.username, result_path(result.id) %>
+<% end %>
+</ul>

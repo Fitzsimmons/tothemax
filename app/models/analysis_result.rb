@@ -8,7 +8,7 @@ class AnalysisResult < ActiveRecord::Base
   serialize :count, JSON
 
   resque_def(:populate_from_api) do |username|
-    self.internal_populate_from_api(username)
+    AnalysisResult.internal_populate_from_api(username)
   end
 
   def self.internal_populate_from_api(username)
