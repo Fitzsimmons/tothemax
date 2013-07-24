@@ -20,7 +20,7 @@ class TwitterUserTimelinePager
       page = trim_anything_older_than(fetch_page(lowest_id), stop_at)
       page_num += 1
       Rails.logger.info "Started processing page #{page_num}"
-
+      return -1 if page.empty?
 
       # strange error when using .id, fetch the id out of the attrs hash manually when using max
       highest_id = [highest_id, page.max{|t| t.attrs[:id]}.id].max

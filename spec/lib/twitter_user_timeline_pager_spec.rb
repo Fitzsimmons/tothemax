@@ -80,6 +80,14 @@ describe TwitterUserTimelinePager do
     expect(result).to eq(3)
   end
 
-  it "bails out if the user has never tweeted"
+  it "bails out if the user has never tweeted" do
+    Twitter.should_receive(:user_timeline).and_return([])
+
+    result = pager.page_back do |page|
+      next
+    end
+
+    expect(result).to eq(-1)
+  end
 
 end
