@@ -11,15 +11,13 @@ class AnalysisResult < ActiveRecord::Base
     self.internal_populate_from_api(username)
   end
 
-  private
-
   def self.internal_populate_from_api(username)
     existing_result = AnalysisResult.where(:username => username).first
 
-    existing_count = existing_result.try(:count)
+    existing_count = existing_result.try(:count) || {}
     most_recent_known_id = existing_result.try(:most_recent_known_id) || 0
 
-    counter = CounterHash.new(existing_result)
+    counter = CounterHash.new(existing_count)
 
     pager = TwitterUserTimelinePager.new(username)
     highest_id = pager.page_back(most_recent_known_id) do |page|

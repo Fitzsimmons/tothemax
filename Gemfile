@@ -18,6 +18,7 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'awesome_print'
+  gem 'factory_girl_rails'
 end
 
 gem 'unicorn'

@@ -9,7 +9,7 @@ describe TwitterUserTimelinePager do
   let(:page) { [tweet1, tweet2, tweet3] }
 
   before(:each) do
-    #Twitter.stub(:user_timeline => page)
+    Twitter.stub(:user_timeline => page)
   end
 
   it "raises if a block is not passed" do
